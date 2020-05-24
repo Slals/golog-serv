@@ -1,0 +1,77 @@
+{{ define "index" }}<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{{.Title}}</title>
+        <style>
+            .logs {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            .trace {
+                background-color: blue;
+                color: #FFF;
+            }
+            .debug {
+                background-color: rgb(255, 166, 0);
+                color: #FFF;
+            }
+            .info {
+                background-color: rgb(0, 217, 255);
+                color: #FFF;
+            }
+            .notice {
+                background-color: gray;
+                color: #FFF;
+            }
+            .warn {
+                background-color: rgb(211, 211, 1);
+                color: #FFF;
+            }
+            .error {
+                background-color: red;
+                color: #FFF;
+            }
+            .fatal {
+                background-color: black;
+                color: #FFF;
+            }
+            p {
+                margin: 0;
+                margin: 5px 2px;
+                padding: 5px;
+            }
+            .timestamp {
+                flex: 2;
+            }
+            .useragent {
+                flex: 1;
+            }
+            .level {
+                flex: 1;
+                text-align: center;
+            }
+            .key {
+                flex: 1;
+            }
+            .message {
+                flex: 5;
+            }
+        </style>
+    </head>
+    <body>
+        {{ range .Logs }}
+            <div class="logs">
+                <p class="timestamp">{{ .Timestamp }}</p>
+                <p class="useragent">
+                    {{ if .UserAgent }} {{ .UserAgent }} {{ else }} No user agent {{ end }}
+                </p>
+                <p class="{{ .Level }} level">{{ .Level }}</p>
+                <p class="key">{{ .Key }}</p>
+                <p class="message">{{ .Message }}</p>
+            </div>
+        {{ end }}
+    </body>
+</html>
+{{ end }}
