@@ -133,8 +133,8 @@ func logHandler(rw http.ResponseWriter, req *http.Request) {
 		}
 		defer f.Close()
 
-		// timestamp;user-agent;level;key;message
-		fmt.Fprintf(f, "%s;%s;%s;%s;%s\n", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message)
+		// timestamp|user-agent|level|key|message
+		fmt.Fprintf(f, "%s|%s|%s|%s|%s\n", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message)
 
 		rw.WriteHeader(http.StatusNoContent)
 
@@ -156,7 +156,7 @@ func logHandler(rw http.ResponseWriter, req *http.Request) {
 		scanner := bufio.NewScanner(f)
 		for scanner.Scan() {
 			line := scanner.Text()
-			rawData := strings.Split(line, ";")
+			rawData := strings.Split(line, "|")
 			if len(rawData) == 5 {
 				logs = append(logs, Log{
 					Timestamp: rawData[0],
