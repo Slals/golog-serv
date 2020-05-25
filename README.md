@@ -48,6 +48,7 @@ GET /logs
 Accept: text/html
 
 Response
+Status: 200 OK
 index.html (the page which shows the data)
 ```
 
