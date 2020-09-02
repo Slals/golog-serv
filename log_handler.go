@@ -12,6 +12,8 @@ import (
 	"strings"
 	"text/template"
 	"time"
+
+	"github.com/slack-go/slack"
 )
 
 // LogLevel defines a log level
@@ -133,8 +135,32 @@ func logHandler(rw http.ResponseWriter, req *http.Request) {
 		}
 		defer f.Close()
 
+		message := fmt.Sprintf("%s|%s|%s|%s|%s\n", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message)
 		// timestamp|user-agent|level|key|message
-		fmt.Fprintf(f, "%s|%s|%s|%s|%s\n", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message)
+		fmt.Fprintf(f, message)
+
+		if len(os.Getenv("SLACK_WEBHOOK")) > 0 {
+			emoji := ""
+			switch data.Level {
+			case TRACE:
+				emoji = ":information_source:"
+			case ERROR:
+				emoji = ":warning:"
+			case FATAL:
+				emoji = ":fire:"
+			default:
+				rw.WriteHeader(http.StatusNoContent)
+				return
+			}
+
+			whMsg := slack.WebhookMessage{
+				Text: fmt.Sprintf("%s %s", emoji, message),
+			}
+
+			if err := slack.PostWebhook(os.Getenv("SLACK_WEBHOOK"), &whMsg); err != nil {
+				fmt.Println("slack error: ", err)
+			}
+		}
 
 		rw.WriteHeader(http.StatusNoContent)
 

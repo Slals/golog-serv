@@ -12,9 +12,11 @@ Simply run `docker build --tag golog-serv .` and `docker run -d -p 127.0.0.1:333
 
 You can edit them from Dockerfile.
 
-DEBUG_PATH is the path used to save debug files.
+`DEBUG_PATH` is the path used to save debug files.
 
-PAGE_TITLE is the page title of the logger page.
+`PAGE_TITLE` is the page title of the logger page.
+
+`SLACK_WEBHOOK` is to send message to a channel.
 
 ## Usage
 
