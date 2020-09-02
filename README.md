@@ -6,11 +6,11 @@ Logs data is saved in files, no query langage used, only appending.
 
 ## Installation 
 
-Simply run `docker build --tag golog-serv .` and `docker run -d -p 127.0.0.1:3333:3333 --name golog-serv golog-serv` 
+Simply run `docker build --tag golog-serv .` and `docker run --env-file .env -d -p 127.0.0.1:3333:3333 --name golog-serv golog-serv` 
 
 ## Env vars
 
-You can edit them from Dockerfile.
+You can edit them from `.env.sample`. Preferably change the name to `.env`.
 
 `DEBUG_PATH` is the path used to save debug files.
 

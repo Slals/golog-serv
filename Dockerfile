@@ -11,4 +11,4 @@ RUN go install -v ./...
 
 EXPOSE 3333
 
-CMD ["app"]
+CMD ["go", "run", "."]

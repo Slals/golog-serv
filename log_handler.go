@@ -135,9 +135,8 @@ func logHandler(rw http.ResponseWriter, req *http.Request) {
 		}
 		defer f.Close()
 
-		message := fmt.Sprintf("%s|%s|%s|%s|%s\n", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message)
 		// timestamp|user-agent|level|key|message
-		fmt.Fprintf(f, message)
+		fmt.Fprintf(f, fmt.Sprintf("%s|%s|%s|%s|%s\n", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message))
 
 		if len(os.Getenv("SLACK_WEBHOOK")) > 0 {
 			emoji := ""
@@ -153,6 +152,7 @@ func logHandler(rw http.ResponseWriter, req *http.Request) {
 				return
 			}
 
+			message := fmt.Sprintf("Timestamp: %s\nUser-Agent: %s\nLog: %s\nKey: %s\nMessage: %s", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message)
 			whMsg := slack.WebhookMessage{
 				Text: fmt.Sprintf("%s %s", emoji, message),
 			}
