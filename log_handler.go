@@ -152,7 +152,7 @@ func logHandler(rw http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			message := fmt.Sprintf("Timestamp: %s\nUser-Agent: %s\nLog: %s\nKey: %s\nMessage: %s", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message)
+			message := fmt.Sprintf("%s\nUser-Agent: %s\nLog: %s\nKey: %s\nMessage: %s", time.Now().Format(time.RFC1123), req.UserAgent(), data.Level, data.Key, data.Message)
 			whMsg := slack.WebhookMessage{
 				Text: fmt.Sprintf("%s %s", emoji, message),
 			}
